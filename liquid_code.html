@@ -1,0 +1,219 @@
+SHOPIFY LIQUID CODE
+{% comment %}
+---------------------------------
+Dog Food Nutrition Section
+---------------------------------
+This section highlights the unique selling points of a dog food product.
+It dynamically pulls content from the Shopify’s theme editor, including:
+- A main heading and description
+- Four feature highlights (with images and descriptions)
+- A CTA button for conversion
+- An optional image upload
+{% endcomment %}
+
+{% schema %}
+{
+  "name": "Dog Food Nutrition",
+  "settings": [
+    {
+      "type": "text",
+      "id": "main_heading",
+      "label": "Main Heading",
+      "default": "What makes us different makes them stronger"
+    },
+    {
+      "type": "textarea",
+      "id": "main_description",
+      "label": "Main Description",
+      "default": "Our dog food is made with real ingredients for superior nutrition."
+    },
+    {
+      "type": "image_picker",
+      "id": "hero_image",
+      "label": "Main Image"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "feature",
+      "name": "Feature Item",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "feature_icon",
+          "label": "Feature Icon"
+        },
+        {
+          "type": "text",
+          "id": "feature_title",
+          "label": "Feature Title",
+          "default": "Real Food"
+        },
+        {
+          "type": "textarea",
+          "id": "feature_description",
+          "label": "Feature Description",
+          "default": "Wholesome recipes for dogs with real meat and veggies."
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Dog Food Nutrition",
+      "category": "Custom",
+      "blocks": [
+        {
+          "type": "feature"
+        },
+        {
+          "type": "feature"
+        },
+        {
+          "type": "feature"
+        },
+        {
+          "type": "feature"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
+
+<section class="dog-food-nutrition">
+  <div class="container">
+   
+    {% comment %} Main Heading and Description {% endcomment %}
+    <h2 class="section-heading">{{ section.settings.main_heading | escape }}</h2>
+    <p class="section-description">{{ section.settings.main_description | escape }}</p>
+
+    {% comment %} Features Section {% endcomment %}
+    <div class="features-wrapper">
+      {% for block in section.blocks %}
+        <div class="feature-item">
+          {% if block.settings.feature_icon %}
+            <img src="{{ block.settings.feature_icon | img_url: '50x50' }}" alt="{{ block.settings.feature_title | escape }}" class="feature-icon">
+          {% endif %}
+          <h3 class="feature-title">{{ block.settings.feature_title | escape }}</h3>
+          <p class="feature-description">{{ block.settings.feature_description | escape }}</p>
+        </div>
+      {% endfor %}
+    </div>
+
+    {% comment %} Hero Image (Optional) {% endcomment %}
+    {% if section.settings.hero_image %}
+      <div class="hero-image-container">
+        <img src="{{ section.settings.hero_image | img_url: 'large' }}" alt="Healthy Dog Food" class="hero-image">
+      </div>
+    {% endif %}
+
+    {% comment %} Call-To-Action Button {% endcomment %}
+    <a href="/collections/all" class="cta-button">Get your dog’s healthy meal today!</a>
+
+  </div>
+</section>
+
+{% comment %}
+---------------------------------
+Custom Styling for the Section
+---------------------------------
+Ensures a visually appealing layout with a structured flexbox-based grid.
+Uses responsive techniques for different screen sizes.
+{% endcomment %}
+
+<style>
+  .dog-food-nutrition {
+    padding: 50px 20px;
+    background-color: #f9f9f9;
+    text-align: center;
+  }
+
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .section-heading {
+    font-size: 2rem;
+    font-weight: bold;
+    color: #333;
+  }
+
+  .section-description {
+    font-size: 1.2rem;
+    color: #666;
+    margin-bottom: 30px;
+  }
+
+  .features-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+  }
+
+  .feature-item {
+    width: 22%;
+    min-width: 250px;
+    background: white;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+  }
+
+  .feature-icon {
+    width: 50px;
+    height: 50px;
+    margin-bottom: 10px;
+  }
+
+  .feature-title {
+    font-size: 1.4rem;
+    font-weight: 600;
+    margin-bottom: 10px;
+  }
+
+  .feature-description {
+    font-size: 1rem;
+    color: #777;
+  }
+
+  .hero-image-container {
+    margin-top: 30px;
+  }
+
+  .hero-image {
+    width: 100%;
+    max-width: 600px;
+    border-radius: 10px;
+  }
+
+  .cta-button {
+    display: inline-block;
+    margin-top: 20px;
+    background-color: #ff6600;
+    color: #fff;
+    padding: 15px 25px;
+    font-size: 1.2rem;
+    border-radius: 5px;
+    text-decoration: none;
+    transition: background 0.3s ease;
+  }
+
+  .cta-button:hover {
+    background-color: #e65c00;
+  }
+
+  @media (max-width: 768px) {
+    .features-wrapper {
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .feature-item {
+      width: 90%;
+    }
+  }
+</style>
